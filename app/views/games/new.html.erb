@@ -1,0 +1,7 @@
+<%= form_with model: @game do |form| %>
+  <%= form.label :width %>
+  <%= form.text_field :width %>
+  <%= form.label :height %>
+  <%= form.text_field :height %>
+  <%= form.submit "Play" %>
+<% end %>
