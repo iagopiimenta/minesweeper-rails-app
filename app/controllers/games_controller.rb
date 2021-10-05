@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :load_game
+  before_action :load_game, only: [:show, :update]
 
   def index
   end
