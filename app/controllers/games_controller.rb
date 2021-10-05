@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  before_action :load_game
+
   def index
   end
 
@@ -7,7 +9,10 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json  { render json: @game }
+    end
   end
 
   # TODO: handle errors
@@ -17,9 +22,19 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def update
+    @game.update!(game_params)
+
+    render json: @game
+  end
+
   private
 
+  def load_game
+    @game = Game.find(params[:id])
+  end
+
   def game_params
-    params.require(:game).permit(:height, :width)
+    params.require(:game).permit(:height, :width, :state, tiles: {})
   end
 end

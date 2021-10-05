@@ -1,3 +1,1 @@
-<h1>Games#show</h1>
-
-<%= react_component("GameApp", { id: @game.id }) %>
+<%= react_component("Minesweeper", { id: @game.id, width: @game.width, height: @game.height, state: @game.state }) %>

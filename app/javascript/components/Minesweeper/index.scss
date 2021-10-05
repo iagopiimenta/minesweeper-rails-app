@@ -1,0 +1,45 @@
+@import 'modern-normalize/modern-normalize.css';
+
+.gameplay {
+  .game-root, .game-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-header {
+    font-size: 3em;
+    padding: 1rem 0;
+  }
+
+  &--gameover {
+    .tile-bomb.tile--flagged {
+      background-color: #e28b8b;
+    }
+  }
+}
+
+.tile {
+  background-color: #cdd4de;
+  text-align: center;
+  border-top: 2px solid #f5f6f8;
+  border-right: 2px solid #90949b;
+  border-bottom: 2px solid #7b7f85;
+  border-left: 2px solid #f0f2f5;
+  padding: 0.4rem;
+
+  width: 33px;
+  height: 33px;
+
+  cursor: pointer;
+
+  &--revealed {
+    background-color: #afafaf;
+  }
+}
+
+.game-column {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
