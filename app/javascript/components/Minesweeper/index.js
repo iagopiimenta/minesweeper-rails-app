@@ -14,7 +14,7 @@ const GameApp = ({ id: gameId, height, width, state: originalState }) => {
   const [state, setState] = useState(originalState);
 
   const handleMarkFlag = (id) => {
-    markFlag(id, tiles, state, setTiles);
+    markFlag(id, tiles, setTiles, state, setState);
   };
   const handlePlay = (id) => {
     play(id, tiles, width, height, setTiles, state, setState);
@@ -28,27 +28,48 @@ const GameApp = ({ id: gameId, height, width, state: originalState }) => {
       setState(GAME_STATES.playing);
     } else if (state === GAME_STATES.playing && Object.keys(tiles).length > 0) {
       updateGame(gameId, { tiles });
-    } else {
+    }
+  }, [tiles, state]);
+
+  useEffect(async () => {
+    if (Object.keys(tiles).length === 0) {
       const gameData = await fetchGame(gameId);
       setTiles(gameData.tiles);
       setState(gameData.state);
     }
   }, [tiles, state]);
 
+  useEffect(async () => {
+    if (state !== originalState) {
+      updateGame(gameId, { state });
+    }
+  }, [state]);
+
   const classes = classNames("gameplay", {
     ["gameplay--gameover"]: state === GAME_STATES.gameOver,
   });
 
+  const fetchGameEmoji = () => {
+    switch (state) {
+      case GAME_STATES.playing:
+        return "🙂";
+      case GAME_STATES.won:
+        return "😎";
+      default:
+        return "😵";
+    }
+  };
+
   if (Object.keys(tiles).length === 0) return null;
+
+  const gameEmoji = fetchGameEmoji();
 
   return (
     <main className={classes}>
       <GameContext.Provider
         value={{ markFlag: handleMarkFlag, play: handlePlay, gameState: state }}
       >
-        <div className="game-header">
-          {state === GAME_STATES.playing ? "🙂" : "😵"}
-        </div>
+        <div className="game-header">{gameEmoji}</div>
         <div className="game-root">
           {[...Array(height).keys()].map((rowPosition, _) => {
             return (

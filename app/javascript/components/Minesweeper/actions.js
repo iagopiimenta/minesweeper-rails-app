@@ -38,7 +38,7 @@ export const generateTilesBombs = (width, height) => {
   const bombIds = [];
 
   const totalTiles = width * height;
-  while (bombIds.length < totalTiles * 0.2) {
+  while (bombIds.length < totalTiles * 0.1) {
     const rand = Math.floor(Math.random() * totalTiles) + 1;
     if (bombIds.indexOf(rand) === -1) {
       bombIds.push(rand);
@@ -87,7 +87,18 @@ const isBomb = (id, tiles) => {
   return tiles[id]?.type === TILE_TYPES.bomb;
 };
 
-export const markFlag = (id, tiles, gameState, setTilesCallback) => {
+const checkWinner = (newTiles, setGameState) => {
+  const isMissingFlagSomeBomb = Object.keys(newTiles).some(
+    (tileId) =>
+      newTiles[tileId].type !== TILE_TYPES.bomb && !newTiles[tileId].revealed
+  );
+
+  console.log("isMissingFlagSomeBomb", isMissingFlagSomeBomb);
+
+  if (!isMissingFlagSomeBomb) setGameState(GAME_STATES.won);
+};
+
+export const markFlag = (id, tiles, setTilesCallback, gameState, setGameState) => {
   if (gameState === GAME_STATES.gameOver) return;
 
   const newTiles = {
@@ -99,6 +110,8 @@ export const markFlag = (id, tiles, gameState, setTilesCallback) => {
   };
 
   setTilesCallback(newTiles);
+
+  checkWinner(newTiles, setGameState);
 };
 
 export const play = (
@@ -140,6 +153,7 @@ export const play = (
     };
 
     setTilesCallback(newTiles);
+    checkWinner(newTiles, setGameState);
     return;
   }
 
@@ -210,4 +224,6 @@ export const play = (
   );
 
   setTilesCallback(newTiles);
+
+  checkWinner(newTiles, setGameState);
 };

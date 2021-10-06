@@ -8,4 +8,5 @@ export const GAME_STATES = {
   playing: "playing",
   pendingMining: "pending_mining",
   gameOver: "game_over",
+  won: "won",
 };

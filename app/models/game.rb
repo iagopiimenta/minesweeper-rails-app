@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  enum state: [ :pending_mining, :playing, :game_over ], _prefix: true, _default: :pending_mining
+  enum state: [ :pending_mining, :playing, :game_over, :won ], _prefix: true, _default: :pending_mining
 
   attribute :tiles, default: -> { {} }
 
