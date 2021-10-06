@@ -123,7 +123,7 @@ export const play = (
   gameState,
   setGameState
 ) => {
-  if (gameState === GAME_STATES.gameOver) return;
+  if ([GAME_STATES.gameOver, GAME_STATES.won].includes(gameState)) return;
 
   const currentTile = tiles[id] || {};
 
